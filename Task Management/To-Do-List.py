@@ -17,13 +17,15 @@ def main():
         while created:
             print("1. Add List")
             print("2. View List")
-            print("3. Exit")
+            print("3. Delete List")
+            print("4. Exit")
             choice = int(input("Enter choice: "))
             os.system("cls")
             match choice:
                 case 1 : created = addList(created)
                 case 2 : viewList()
-                case 3 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
+                case 3 : deleteList()
+                case 4 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
 
 
 def addList(c):
@@ -73,6 +75,40 @@ def viewList():
     else:
         print("No record/s")
     
+    if choice==1 or choice==2:
+        while con != "Y" or con != "N":
+            con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
+            if con == "N":
+                os.system("cls")
+                exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
+            elif con == "Y":
+                os.system("cls")
+                break
+            else:
+                print("WARNING: INVALID CHOICE!")
+
+
+def deleteList():
+    con = "Y"
+
+    print("-" * 50)
+    print("3. DELETE LIST".center(50))
+    print("-" * 50)
+
+    viewList()
+    if len(toDo) != 0:
+        while True:
+            try:
+                delete = int(input("Enter a number to be deleted: "))
+                if len(toDo) <= delete and delete > 0:
+                    toDo.remove(toDo[delete - 1])
+                    viewList()
+                    break
+                else:
+                    print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is a negative.
+            except IndexError:
+                print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
+
     while con != "Y" or con != "N":
         con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
         if con == "N":
@@ -83,6 +119,5 @@ def viewList():
             break
         else:
             print("WARNING: INVALID CHOICE!")
-
 
 main()
