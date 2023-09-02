@@ -18,14 +18,16 @@ def main():
             print("1. Add List")
             print("2. View List")
             print("3. Delete List")
-            print("4. Exit")
+            print("4. Check Mark the List")
+            print("5. Exit")
             choice = int(input("Enter choice: "))
             os.system("cls")
             match choice:
                 case 1 : created = addList(created)
                 case 2 : viewList()
                 case 3 : deleteList()
-                case 4 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
+                case 4 : checkMark()
+                case 5 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
 
 
 def addList(c):
@@ -100,12 +102,12 @@ def deleteList():
         while True:
             try:
                 delete = int(input("Enter a number to be deleted: "))
-                if len(toDo) <= delete and delete > 0:
+                if len(toDo) <= delete or delete > 0:
                     toDo.remove(toDo[delete - 1])
                     viewList()
                     break
                 else:
-                    print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is a negative.
+                    print(f"\n{delete} is not in the list!-")    # Display this if the number to be deleted is a negative.
             except IndexError:
                 print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
 
@@ -119,5 +121,37 @@ def deleteList():
             break
         else:
             print("WARNING: INVALID CHOICE!")
+
+
+def checkMark():
+    con = "Y"
+
+    print("-" * 50)
+    print("4. CHECK MARK THE LIST".center(50))
+    print("-" * 50)
+
+    viewList()
+    
+    check = int(input("Enter a number to mark as check: "))
+
+    # Check if the item is already marked as checked or not.
+    if "[ ]" in toDo[check - 1]:
+        toDo[check - 1] = toDo[check - 1].replace("[ ]", "[✓]")
+    else:
+        print(f"The item in {check} is already marked as checked.")
+
+    viewList()
+
+    while con != "Y" or con != "N":
+        con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
+        if con == "N":
+            os.system("cls")
+            exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
+        elif con == "Y":
+            os.system("cls")
+            break
+        else:
+            print("WARNING: INVALID CHOICE!")
+
 
 main()
