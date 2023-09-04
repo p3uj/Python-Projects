@@ -1,13 +1,13 @@
 def main():
-    global created, toDo, os, choice
-    import os   # Module to work the clearscreen.
+    global created, toDo, choice, system
+    from os import system  # os is the module used to work the system function (clearscreen).
     created = 0
     toDo = []
     while not created:
         print("1. Add List")
         print("2. Exit")
         choice = int(input("Enter choice: "))
-        os.system("cls")
+        system("cls")
         if choice == 1:
             created = addList(created)
         elif choice == 2:
@@ -21,7 +21,7 @@ def main():
             print("4. Check Mark the List")
             print("5. Exit")
             choice = int(input("Enter choice: "))
-            os.system("cls")
+            system("cls")
             match choice:
                 case 1 : created = addList(created)
                 case 2 : viewList()
@@ -78,16 +78,9 @@ def viewList():
         print("No record/s")
     
     if choice==1 or choice==2:
-        while con != "Y" or con != "N":
-            con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
-            if con == "N":
-                os.system("cls")
-                exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
-            elif con == "Y":
-                os.system("cls")
-                break
-            else:
-                print("WARNING: INVALID CHOICE!")
+        input("Press ENTER key to go back to main...")
+        system("cls")
+    
 
 
 def deleteList():
@@ -114,10 +107,10 @@ def deleteList():
     while con != "Y" or con != "N":
         con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
         if con == "N":
-            os.system("cls")
+            system("cls")
             exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
         elif con == "Y":
-            os.system("cls")
+            system("cls")
             break
         else:
             print("WARNING: INVALID CHOICE!")
@@ -145,10 +138,10 @@ def checkMark():
     while con != "Y" or con != "N":
         con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
         if con == "N":
-            os.system("cls")
+            system("cls")
             exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
         elif con == "Y":
-            os.system("cls")
+            system("cls")
             break
         else:
             print("WARNING: INVALID CHOICE!")
