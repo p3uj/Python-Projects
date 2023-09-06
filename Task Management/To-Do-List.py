@@ -1,8 +1,10 @@
 def main():
-    global created, toDo, choice, system
+    global created, toDo, choice, system, getch
     from os import system  # os is the module used to work the system function (clearscreen).
+    from msvcrt import getch # msvcrt is the module used to work the getch function.
     created = 0
     toDo = []
+
     while not created:
         print("1. Add List")
         print("2. Exit")
@@ -74,10 +76,11 @@ def viewList():
             print(f"{num}. {task}")
             num += 1
     else:
-        print("No record/s")
+        print("No record/s\n")
     
     if choice==1 or choice==2:
-        input("Press ENTER key to go back to main...")
+        print("Press any key to go back to main...", end='', flush=True) # The end='' is used to stay the cursor in this line. And the flush=True is used to ensure the message will be display before the user enter any key.
+        getch()
         system("cls")
     
 
@@ -105,7 +108,8 @@ def deleteList():
                             con = input("Do you want to delete another list? (Y/N): ").strip().upper()
                         break   # Break the inner loop.
                     else:
-                        input("\nPress ENTER key to go back to main...")
+                        print("Press any key to go back to main...", end='', flush=True)
+                        getch()
                         break   # Break the inner loop.
                 else:
                     print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is zero or negative.
@@ -118,33 +122,38 @@ def deleteList():
 def checkMark():
     con = 'Y'
 
-    while con == 'Y' and len(toDo) != 0:
-        system("cls")
-        print("-" * 50)
-        print("4. CHECK MARK THE LIST".center(50))
-        print("-" * 50)
-        viewList()
-        while True:
-            try:
-                check = input("Enter a number to mark as check: ")
-                check = int(check)
-                if len(toDo) <= check or check > 0:
-                    # Check if the item is already marked as checked or not.
-                    if "[ ]" in toDo[check - 1]:
-                        toDo[check - 1] = toDo[check - 1].replace("[ ]", "[✓]")
-                    else:
-                        print(f"The item in the number {check} is already marked as checked.")
-                    viewList()
-                    if len(toDo) != 0:
+    if len(toDo) != 0:
+        while con == 'Y':
+            system("cls")
+            print("-" * 50)
+            print("4. CHECK MARK THE LIST".center(50))
+            print("-" * 50)
+            viewList()
+            while True:
+                try:
+                    check = input("Enter a number to mark as check: ")
+                    check = int(check)
+                    if len(toDo) <= check or check > 0:
+                        # Check if the item is already marked as checked or not.
+                        if "[ ]" in toDo[check - 1]:
+                            toDo[check - 1] = toDo[check - 1].replace("[ ]", "[✓]")
+                        else:
+                            print(f"The item in the number {check} is already marked as checked.")
+                        
+                        viewList()
                         con = input("\nDo you want to mark another list as checked? (Y/N): ").strip().upper()
                         while con != 'Y' and con != 'N':
                             print("WARNING: INVALID CHOICE!\n")
                             con = input("\nDo you want ot mark another list as checked? (Y/N): ").strip().upper()
                         break
-                else:
+                    else:
+                        print(f"\n{check} is not in the list!")
+                except (IndexError, ValueError):
                     print(f"\n{check} is not in the list!")
-            except (IndexError, ValueError):
-                print(f"\n{check} is not in the list!")
+    else:
+        viewList()
+        print("Press any key to go back to main...", end='', flush=True)
+        getch()
     
     system("cls")
 
