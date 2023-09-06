@@ -84,36 +84,36 @@ def viewList():
 
 
 def deleteList():
-    con = "Y"
+    con = 'Y'
 
-    print("-" * 50)
-    print("3. DELETE LIST".center(50))
-    print("-" * 50)
-
-    viewList()
-    if len(toDo) != 0:
-        while True:
+    while con == 'Y' and len(toDo) != 0:    # Outer While Loop.
+        system("cls")
+        print("-" * 50)
+        print("3. DELETE LIST".center(50))
+        print("-" * 50)
+        viewList()
+        while True: # Inner While Loop.
             try:
-                delete = int(input("Enter a number to be deleted: "))
+                delete = input("Enter a number to be deleted: ") # Initially, delete variable is a string data type so that we still able to display what the user inputted if it can't convert to int.
+                delete = int(delete)    # Convert the string to int.
                 if len(toDo) <= delete or delete > 0:
                     toDo.remove(toDo[delete - 1])
                     viewList()
-                    break
+                    if len(toDo) != 0:  # Check if the updated number of the list is not equal to 0.
+                        con = input("\nDo you want to delete another list? (Y/N): ").strip().upper()
+                        while con != 'Y' and con != 'N':
+                            print("WARNING: INVALID CHOICE!\n")
+                            con = input("Do you want to delete another list? (Y/N): ").strip().upper()
+                        break   # Break the inner loop.
+                    else:
+                        input("\nPress ENTER key to go back to main...")
+                        break   # Break the inner loop.
                 else:
-                    print(f"\n{delete} is not in the list!-")    # Display this if the number to be deleted is a negative.
-            except IndexError:
+                    print(f"\n{delete} is not in the list!-")    # Display this if the number to be deleted is zero or negative.
+            except (IndexError, ValueError):
                 print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
-
-    while con != "Y" or con != "N":
-        con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
-        if con == "N":
-            system("cls")
-            exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
-        elif con == "Y":
-            system("cls")
-            break
-        else:
-            print("WARNING: INVALID CHOICE!")
+    
+    system("cls")
 
 
 def checkMark():
