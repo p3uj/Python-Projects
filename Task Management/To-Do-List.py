@@ -63,7 +63,6 @@ def addList(c):
 
 def viewList():
     num = 1
-    con = "Y"
 
     if choice==2:
         print("-" * 50)
@@ -109,7 +108,7 @@ def deleteList():
                         input("\nPress ENTER key to go back to main...")
                         break   # Break the inner loop.
                 else:
-                    print(f"\n{delete} is not in the list!-")    # Display this if the number to be deleted is zero or negative.
+                    print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is zero or negative.
             except (IndexError, ValueError):
                 print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
     
@@ -117,34 +116,37 @@ def deleteList():
 
 
 def checkMark():
-    con = "Y"
+    con = 'Y'
 
-    print("-" * 50)
-    print("4. CHECK MARK THE LIST".center(50))
-    print("-" * 50)
-
-    viewList()
+    while con == 'Y' and len(toDo) != 0:
+        system("cls")
+        print("-" * 50)
+        print("4. CHECK MARK THE LIST".center(50))
+        print("-" * 50)
+        viewList()
+        while True:
+            try:
+                check = input("Enter a number to mark as check: ")
+                check = int(check)
+                if len(toDo) <= check or check > 0:
+                    # Check if the item is already marked as checked or not.
+                    if "[ ]" in toDo[check - 1]:
+                        toDo[check - 1] = toDo[check - 1].replace("[ ]", "[✓]")
+                    else:
+                        print(f"The item in the number {check} is already marked as checked.")
+                    viewList()
+                    if len(toDo) != 0:
+                        con = input("\nDo you want to mark another list as checked? (Y/N): ").strip().upper()
+                        while con != 'Y' and con != 'N':
+                            print("WARNING: INVALID CHOICE!\n")
+                            con = input("\nDo you want ot mark another list as checked? (Y/N): ").strip().upper()
+                        break
+                else:
+                    print(f"\n{check} is not in the list!")
+            except (IndexError, ValueError):
+                print(f"\n{check} is not in the list!")
     
-    check = int(input("Enter a number to mark as check: "))
-
-    # Check if the item is already marked as checked or not.
-    if "[ ]" in toDo[check - 1]:
-        toDo[check - 1] = toDo[check - 1].replace("[ ]", "[✓]")
-    else:
-        print(f"The item in {check} is already marked as checked.")
-
-    viewList()
-
-    while con != "Y" or con != "N":
-        con = input("\nDo you want to continue this program? (Y/N): ").strip().upper()
-        if con == "N":
-            system("cls")
-            exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
-        elif con == "Y":
-            system("cls")
-            break
-        else:
-            print("WARNING: INVALID CHOICE!")
+    system("cls")
 
 
 main()
