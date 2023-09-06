@@ -88,33 +88,39 @@ def viewList():
 def deleteList():
     con = 'Y'
 
-    while con == 'Y' and len(toDo) != 0:    # Outer While Loop.
-        system("cls")
-        print("-" * 50)
-        print("3. DELETE LIST".center(50))
-        print("-" * 50)
-        viewList()
-        while True: # Inner While Loop.
-            try:
-                delete = input("Enter a number to be deleted: ") # Initially, delete variable is a string data type so that we still able to display what the user inputted if it can't convert to int.
-                delete = int(delete)    # Convert the string to int.
-                if len(toDo) <= delete or delete > 0:
-                    toDo.remove(toDo[delete - 1])
-                    viewList()
-                    if len(toDo) != 0:  # Check if the updated number of the list is not equal to 0.
-                        con = input("\nDo you want to delete another list? (Y/N): ").strip().upper()
-                        while con != 'Y' and con != 'N':
-                            print("WARNING: INVALID CHOICE!\n")
-                            con = input("Do you want to delete another list? (Y/N): ").strip().upper()
-                        break   # Break the inner loop.
+    if len(toDo) != 0:
+        while con == 'Y' and len(toDo) != 0:    # Outer While Loop.
+            system("cls")
+            print("-" * 50)
+            print("3. DELETE LIST".center(50))
+            print("-" * 50)
+            viewList()
+            while True: # Inner While Loop.
+                try:
+                    delete = input("Enter a number to be deleted: ") # Initially, delete variable is a string data type so that we still able to display what the user inputted if it can't convert to int.
+                    delete = int(delete)    # Convert the string to int.
+                    if len(toDo) <= delete or delete > 0:
+                        toDo.remove(toDo[delete - 1])
+                        viewList()
+                        if len(toDo) != 0:  # Check if the updated number of the list is not equal to 0.
+                            con = input("\nDo you want to delete another list? (Y/N): ").strip().upper()
+                            while con != 'Y' and con != 'N':
+                                print("WARNING: INVALID CHOICE!\n")
+                                con = input("Do you want to delete another list? (Y/N): ").strip().upper()
+                            break   # Break the inner loop.
+                        else:
+                            print("Press any key to go back to main...", end='', flush=True)
+                            getch()
+                            break   # Break the inner loop.
                     else:
-                        print("Press any key to go back to main...", end='', flush=True)
-                        getch()
-                        break   # Break the inner loop.
-                else:
-                    print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is zero or negative.
-            except (IndexError, ValueError):
-                print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
+                        print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is zero or negative.
+                except (IndexError, ValueError):
+                    print(f"\n{delete} is not in the list!")    # Display this if the number to be deleted is not in the list/out of range.
+    else:
+        print("-" * 50 + "\n" + "3. DELETE LIST".center(50) + "\n" + "-" * 50)
+        viewList()
+        print("Press any key to go back to main...", end='', flush=True)
+        getch()
     
     system("cls")
 
@@ -151,6 +157,7 @@ def checkMark():
                 except (IndexError, ValueError):
                     print(f"\n{check} is not in the list!")
     else:
+        print("-" * 50 + "\n" + "4. CHECK MARK THE LIST".center(50) + "\n" + "-" * 50)
         viewList()
         print("Press any key to go back to main...", end='', flush=True)
         getch()
