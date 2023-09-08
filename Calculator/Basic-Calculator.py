@@ -39,7 +39,7 @@ def main():
                 firstNum, secondNum = userInput()
                 print(f"\n{firstNum} - {secondNum} = {firstNum - secondNum}")
             case 4 : 
-                print("\t\tDIVITION")
+                print("\t\tDIVISION")
                 firstNum, secondNum = userInput()
                 print(f"\n{firstNum} ÷ {secondNum} = {firstNum / secondNum}")
 
