@@ -1,9 +1,10 @@
 def main():
-    global created, toDo, choice, system, getch
+    global created, toDo, choice, system, getch, deletedItems
     from os import system  # os is the module used to work the system function (clearscreen).
     from msvcrt import getch # msvcrt is the module used to work the getch function.
     created = 0
     toDo = []
+    deletedItems = []
 
     while not created:
         print("1. Add List")
@@ -21,7 +22,8 @@ def main():
             print("2. View List")
             print("3. Delete List")
             print("4. Check Mark the List")
-            print("5. Exit")
+            print("5. Restore Deleted Items")
+            print("6. Exit")
             choice = int(input("Enter choice: "))
             system("cls")
             match choice:
@@ -29,9 +31,10 @@ def main():
                 case 2 : viewList()
                 case 3 : deleteList()
                 case 4 : checkMark()
-                case 5 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
+                case 5 : restoreDeletedItems()
+                case 6 : exit("-" * 50 + "\n" + "THANK YOU FOR USING MY PROGRAM!".center(50) + "\n" + "-" * 50)
 
-
+#-----addList FUNCTION-----
 def addList(c):
     num = 1
 
@@ -61,8 +64,9 @@ def addList(c):
     # Printing the created list/updated list
     viewList()
     return c
+#-----END OF addList FUNCTION-----
 
-
+#-----viewList FUNCTIOIN-----
 def viewList():
     num = 1
 
@@ -82,9 +86,9 @@ def viewList():
         print("Press any key to go back to main...", end='', flush=True) # The end='' is used to stay the cursor in this line. And the flush=True is used to ensure the message will be display before the user enter any key.
         getch()
         system("cls")
-    
+#-----END OF viewList FUNCTION
 
-
+#-----deleteList FUNCTION-----
 def deleteList():
     con = 'Y'
 
@@ -100,6 +104,7 @@ def deleteList():
                     delete = input("Enter a number to be deleted: ") # Initially, delete variable is a string data type so that we still able to display what the user inputted if it can't convert to int.
                     delete = int(delete)    # Convert the string to int.
                     if len(toDo) <= delete or delete > 0:
+                        deletedItems.append(toDo[delete - 1])
                         toDo.remove(toDo[delete - 1])
                         viewList()
                         if len(toDo) != 0:  # Check if the updated number of the list is not equal to 0.
@@ -123,8 +128,9 @@ def deleteList():
         getch()
     
     system("cls")
+#-----END OF deleteList FUNCTION-----
 
-
+#-----checkMark FUNCTION-----
 def checkMark():
     con = 'Y'
 
@@ -163,6 +169,63 @@ def checkMark():
         getch()
     
     system("cls")
+#-----END OF checkMark FUNCTION-----
 
+#-----viewDeletedItems FUNCTION-----
+def viewDeletedItems():
+    num = 1
+
+    print("\nDELETED ITEMS:")
+    if len(deletedItems) != 0:
+        for task in deletedItems:
+            print(f"{num}. {task}")
+            num += 1
+    else:
+        print("No record/s\n")
+#-----END OF viewDeletedItems FUNCTION-----
+
+#-----restoreDeletedItems FUNCTION-----
+def restoreDeletedItems():
+    con = 'Y'
+
+    if len(deletedItems) != 0:
+        while con == 'Y' and len(deletedItems) != 0:
+            system("cls")
+            print("-" * 50)
+            print("5. RESTORE DELETED ITEMS".center(50))
+            print("-" * 50)
+            viewDeletedItems()
+            while True: # Inner While Loop.
+                try:
+                    restoreNumber = input("Enter a number to be restore: ") # Initially, delete variable is a string data type so that we still able to display what the user inputted if it can't convert to int.
+                    restoreNumber = int(restoreNumber)    # Convert the string to int.
+                    if len(deletedItems) <= restoreNumber or restoreNumber > 0:
+                        toDo.append(deletedItems[restoreNumber - 1])
+                        deletedItems.remove(deletedItems[restoreNumber - 1])
+                        print(f"The item in number {restoreNumber} is successfully restored!")
+                        viewList()
+                        viewDeletedItems()
+                        if len(deletedItems) != 0:  # Check if the updated number of the list is not equal to 0.
+                            con = input("\nDo you want to restore another list? (Y/N): ").strip().upper()
+                            while con != 'Y' and con != 'N':
+                                print("WARNING: INVALID CHOICE!\n")
+                                con = input("Do you want to restore another list? (Y/N): ").strip().upper()
+                            break   # Break the inner loop.
+                        else:
+                            print("Press any key to go back to main...", end='', flush=True)
+                            getch()
+                            break   # Break the inner loop.
+                    else:
+                        print(f"\n{restoreNumber} is not in the list!")    # Display this if the number to be restore is zero or negative.
+                except (IndexError, ValueError):
+                    print(f"\n{restoreNumber} is not in the list!")    # Display this if the number to be restore is not in the list/out of range.
+    else:
+        print("-" * 50 + "\n" + "5. RESTORE DELETED ITEMS".center(50) + "\n" + "-" * 50)
+        viewDeletedItems()
+        print("Press any key to go back to main...", end='', flush=True)
+        getch()
+    
+    system("cls")
+#-----END OF restoreDeletedItems FUNCTION-----
 
 main()
