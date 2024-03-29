@@ -3,8 +3,64 @@ from msvcrt import getch
 accounts_created = {}
 
 def login(title):
+    has_warning_message = False
     system("cls")
     header_page(title)
+
+    user_name = input("Username: ")
+    
+    # Validate if the username is already created.
+    while user_name not in accounts_created:
+        has_warning_message = True
+        system("cls")
+        header_page(title)
+        print("(1) Try again".center(26) + "|" + "(2) Create Account".center(26) + "|" + "(3) Exit".center(26))
+        print("────────────────────────────────────────────────────────────────────────────────")
+        print("USERNAME IS NOT YET CREATED!".center(80))
+        while True:
+            try:
+                choice = int(input("Enter choice: "))
+                match choice:
+                    case 1: user_name, password = login("LOGIN ACCOUNT")
+                    case 2: create_account("CREATE ACCOUNT")
+                    case 3: exit("Program End!")
+                    case _: print("Invalid choice!")
+                break
+            except ValueError:
+                print("\nInvalid input! Please enter integer only!")
+    if has_warning_message:
+        system("cls")
+        header_page(title)
+        print(f"Username: {user_name}")
+        has_warning_message = False
+
+    password = input("Enter password: ")
+
+    # Validate if the entered password is match to the created password.
+    while accounts_created[user_name] != password:  # Loop as long as the entered password is not match to the created password.
+        system("cls")
+        header_page(title)
+        print("(1) Try again".center(40) + "|" + "(2) Exit".center(39))
+        print("────────────────────────────────────────────────────────────────────────────────")
+        print("INCORRECT PASSWORD!".center(80))
+        while True:
+            try:
+                choice = int(input("Enter choice: "))
+                if choice == 1:
+                    system("cls")
+                    header_page(title)
+                    password = input("Enter password: ")
+                    break
+                elif choice == 2:
+                    exit("Program end!")
+                else:
+                    print("Invalid choice!")
+            except ValueError:
+                print("\nInvalid input! Please enter integer only!")
+    print("Successfully login!")
+    print("\t\t\tPress any key to go back to main...", end='', flush=True)
+    getch()
+    return user_name, password
 
 def create_account(title):
     has_warning_message = False
