@@ -13,6 +13,19 @@ def create_account(title):
 
     user_name = input("Create username: ")
 
+    # Validate if the user name is already used.
+    while user_name in accounts_created:
+        has_warning_message = True
+        system("cls")
+        header_page(title)
+        print("USERNAME ALREADY USED! PLEASE USE DIFFERENT USERNAME!".center(80))
+        user_name = input("Create username: ")
+    if has_warning_message:
+        system("cls")
+        header_page(title)
+        print(f"Create username: {user_name}")
+        has_warning_message = False
+
     # Validate the length of the user name
     while len(user_name) < 8 or len(user_name) > 16: # Loop as long as the length of the username is less than 8 or greater than 16.
         has_warning_message = True
