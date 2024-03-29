@@ -7,11 +7,33 @@ def login(title):
     header_page(title)
 
 def create_account(title):
+    has_warning_message = False
     system("cls")
     header_page(title)
 
     user_name = input("Create username: ")
+
+    # Validate the length of the user name
+    while len(user_name) < 8 or len(user_name) > 16: # Loop as long as the length of the username is less than 8 or greater than 16.
+        has_warning_message = True
+        system("cls")
+        header_page(title)
+        print("USERNAME MUST BE 8 CHARACTERS AND NOT EXCEED TO 16!".center(80))
+        user_name = input("Create username: ")
+    if has_warning_message:
+        system("cls")
+        header_page(title)
+        print(f"Create username: {user_name}")
+        has_warning_message = False
+
     password = input("Create password: ")
+
+    # Validate the length of the password.
+    while len(password) < 8: # Loop as long as the length of the password is less than 8.
+        system("cls")
+        header_page(title)
+        print("PASSWORD MUST BE 8 CHARACTERS OR MORE!".center(80))
+        password = input("Create password: ")
 
     accounts_created[user_name] = password  # Adding the created username and password to the accounts_created(dict).
 
